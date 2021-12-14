@@ -20,7 +20,6 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-
     @Override
     public Member save(Member member) throws SQLException {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -36,14 +35,12 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findById(Long id) {
-        List<Member> result = jdbcTemplate.query("SELECT * FROM MEMBER WHERE ID = ?", memberRowMapper());
-        return result.stream().findAny();
+        return jdbcTemplate.query("SELECT * FROM MEMBER WHERE ID = ?", memberRowMapper(), id).stream().findAny();
     }
 
     @Override
     public Optional<Member> findByName(String name) {
-        List<Member> result = jdbcTemplate.query("SELECT * FROM MEMBER WHERE NAME = ?", memberRowMapper());
-        return result.stream().findAny();
+        return jdbcTemplate.query("SELECT * FROM MEMBER WHERE NAME = ?", memberRowMapper(), name).stream().findAny();
     }
 
     @Override
